@@ -37,6 +37,7 @@ const HomePage = () => {
                 </Link>
               )
             )}
+            
           </div>
           <div className=" lg:mt-0 lg:col-span-5">
             <img src={HomeImg} />

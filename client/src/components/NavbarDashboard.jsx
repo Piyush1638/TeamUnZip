@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 const NavbarDashboard = () => {
   return (
-    <div>
       <nav className="bg-transparent">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link
@@ -62,7 +61,6 @@ const NavbarDashboard = () => {
           </div>
         </div>
       </nav>
-    </div>
   );
 };
 

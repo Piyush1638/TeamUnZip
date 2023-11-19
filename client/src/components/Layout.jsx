@@ -1,14 +1,14 @@
-import NavbarDashboard from './NavbarDashboard';
+import NavbarDashboard from "./NavbarDashboard";
 
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
   return (
     <>
-        <main className='bg-gray-900'>
-          <NavbarDashboard/>
-          {children}  
-        </main>
+      <main className="bg-gray-900 relative min-h-screen">
+      <NavbarDashboard />
+      {children}
+      </main>
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

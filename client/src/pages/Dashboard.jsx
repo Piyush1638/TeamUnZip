@@ -1,23 +1,61 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
+import img2 from "../assets/Judge.png";
+import img3 from "../assets/Client.png";
+import img4 from "../assets/Lawyer.png";
+import img5 from "../assets/Cases.png";
 
-const AdminDashboard = ({ title, classprop }) => (
-  <div className="p-3  justify-end items-end flex-col rounded-xl h-40 sm:w-72 w-full border-2 border-slate-400 mx-5 my-5 white-glassmorphism">
-    <div className="flex items-center justify-center">
-      <img src={img1} className="h-20 aspect-[3/2] "></img>
-    </div>
-    <div className="flex justify-center items-center text-white">JUDGES</div>
-    <div className="flex justify-center items-center text-white">
-      Total Judges: 30
+import { EvaultContext } from "../context/EvaulContext";
+
+const DashboardItems = ({ img, title, link, count }) => (
+  <div>
+    <div className="p-3  justify-end items-end flex-col rounded-xl sm:w-72 w-full border-2 border-slate-400 mx-5 my-5 blue-glassmorphism">
+      <div className="flex items-center justify-center">
+        <img src={img} className="h-20 aspect-[3/2] "></img>
+      </div>
+      <div className="flex justify-center flex-col items-center text-white">
+        <p className="text-xl font-bold">{title}</p>
+        <p>
+          No. of {title} :{count}
+        </p>
+      </div>
+        <Link to={link} className="text-white mt-3 py-3 flex items-center justify-center border-2 rounded-lg border-gray-500 ">
+          View {title}
+        </Link>
     </div>
   </div>
 );
 
 const Dashboard = ({}) => {
+  const { clientsArray, judgesArray, lawyersArray } = useContext(EvaultContext);
   return (
     <Layout>
-      <div className="bg-[#0b0212] h-screen w-full">
-        <h1 className="text-white">Dashboard</h1>
+      <h1 className="text-white pt-5 bg-[#0b0212] text-center text-4xl font-bold">
+        DASHBOARD
+      </h1>
+      <div className="bg-[#0b0212] min-h-screen min-w-screen flex w-screen">
+        <div className="flex flex-row mt-40">
+          <DashboardItems
+            img={img2}
+            title="Judge"
+            count={judgesArray.length}
+            link="/judges"
+          />
+          <DashboardItems
+            img={img3}
+            title="Client"
+            count={clientsArray.length}
+            link="/clients"
+          />
+          <DashboardItems
+            img={img4}
+            title="Lawyer"
+            count={lawyersArray.length}
+            link="/lawyers"
+          />
+          <DashboardItems img={img5} title="Cases" link="/cases"/>
+        </div>
       </div>
     </Layout>
   );
