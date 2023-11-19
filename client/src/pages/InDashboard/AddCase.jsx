@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import FileUpload from "./fileUpload";
+import { EvaultContext } from "../../context/EvaulContext";
+
+// import FileUpload from "./FileUpload";
 
 const AddCase = () => {
+  const {currentAccount} = useContext(EvaultContext);
     const navigate = useNavigate();
   return (
     <div>
@@ -73,11 +78,14 @@ const AddCase = () => {
           </label>
         </div>
       
-        <div className="mb-6">
+        {/* <div className="mb-6">
         <label for="fileupload" className=""> Select a file to upload</label> <br />
         <input className="mt-4" type="file" name="fileupload" id="fileupload"/> 
 
-        </div>
+        </div> */}
+        <FileUpload
+        account={currentAccount}
+        ></FileUpload>
 
         <button
           type="submit"

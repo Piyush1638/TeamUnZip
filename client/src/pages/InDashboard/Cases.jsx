@@ -53,26 +53,26 @@ const Cases = () => {
     const navigate = useNavigate();
   return (
     <Layout>
-      <div className="relative">
-        <h1 className="text-2xl text-center mt-3 font-light text-white">Cases:</h1>
+      <div className="relative ">
+        <h1 className="text-2xl text-center mt-3 font-bold text-white rounded-xl m-10 bg-gradient-to-r from-purple-500 via-red-400 to-pink-500 white-glassmorpism ">CASES</h1>
 
         <div className="flex fixed bottom-9 right-9" onClick={() => {
               isAllowed ? navigate("/add-case") : alert("You are not allowed to add a case");
             }}>
           <button
             
-            className="  bg-black rounded-md text-white h-12 w-32 text-2xl hover:opacity-70"
+            className="  bg-black rounded-md text-white h-12 w-32 text-2xl hover:border-2 hover:border-purple-600 hover:text-purple-600"
           >
             Add Case
           </button>
         </div>
 
-        <div>
-          <ul className="mt-5">
+        <div className=" ">
+          <ul className="mt-5  mx-20  ">
             {cases.map((caseItem) => (
               <li
                 key={caseItem.id}
-                className="bg-white shadow-md px-8 py-6 rounded-lg my-5"
+                className="bg-[#0b0212] text-white border-2 border-slate-400  flex flex-col shadow-md px-8 py-6 rounded-lg my-5 hover:border-purple-600"
               >
                 <p className="font-bold">Case Name: {caseItem.name}</p>
                 <p>Case ID: {caseItem.caseId}</p>

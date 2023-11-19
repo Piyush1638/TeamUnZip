@@ -1,85 +1,81 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import { useNavigate } from "react-router-dom";
-
-const clients = [
-  {
-    id: 1,
-    ClientName: "Client 1",
-    ClientId: "131423423",
-    ClientCasesIds: "131423423",
-  },
-  {
-    id: 2,
-    ClientName: "Client 2",
-    ClientId: "131423422",
-    ClientCasesIds: "131423423",
-
-  },
-  {
-    id: 3,
-    ClientName: "Client 3",
-    ClientId: "133423423",
-    ClientCasesIds:"131423423",
-
-  },
-  {
-    id: 4,
-    ClientName: "Client 4",
-    ClientId: "131424423",
-    ClientCasesIds: "131423423",
-
-  },
-  {
-    id: 5,
-    ClientName: "Client 5",
-    ClientId: "135423423",
-    ClientCasesIds: "131423423",
-
-  },
-  
-];
-
-
-
+import { EvaultContext } from "../../context/EvaulContext";
 
 const Clients = () => {
-    const [isAllowed, setIsAllowed] = React.useState(true);
+    const { clientsArray, isConnected, getClientDetails } = useContext(EvaultContext);
+    const [clientsData, setClientsData] = useState([]);
+    const [isAllowed, setIsAllowed] = useState(true);
     const navigate = useNavigate();
-  return (
-    <Layout>
-      <div className="relative">
-        <h1 className="text-2xl text-center mt-3 font-light text-white">Clients:</h1>
 
-        <div className="flex fixed bottom-9 right-9" onClick={() => {
-              isAllowed ? navigate("/add-client") : alert("You are not allowed to add a case");
-            }}>
-          <button
-            
-            className="  bg-black rounded-md text-white h-12 w-32 text-2xl hover:opacity-70"
-          >
-            Add Client
-          </button>
-        </div>
+    useEffect(() => {
+        const fetchClientData = async () => {
+            if (isConnected && clientsArray.length > 0) {
+                // Assuming your smart contract has a function to get client details by address
+                // Modify this part based on your smart contract functions
+                const clientDetails = await Promise.all(
+                    clientsArray.map(async (clientAddress) => {
+                        const details = await getClientDetails(clientAddress);
+                        return {
+                            address: clientAddress,
+                            details: details,
+                        };
+                    })
+                );
 
-        <div>
-          <ul className="mt-5">
-            {clients.map((caseItem) => (
-              <li
-                key={caseItem.id}
-                className="bg-white shadow-md px-8 py-6 rounded-lg my-5"
-              >
-                <p className="font-bold">Client Name: {caseItem.ClientName}</p>
-                <p>Client ID: {caseItem.ClientId}</p>
-                <p>Client Case Id: {caseItem.ClientCasesIds}</p>
-                
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </Layout>
-  );
+                setClientsData(clientDetails);
+            }
+        };
+
+        fetchClientData();
+    }, [isConnected, clientsArray, getClientDetails]);
+
+    const handleClick = () =>{
+        if (isAllowed) {
+            navigate("/add-client");
+        } else {
+            alert("You are not allowed to add a case");
+        }
+    }
+
+    return (
+        <Layout>
+            <div className="relative">
+                <h1 className="text-2xl text-center mt-3 font-bold text-white rounded-xl m-10 bg-gradient-to-r from-purple-500 via-red-400 to-pink-500 white-glassmorpism">CLIENT</h1>
+
+                <div
+                    className="flex fixed bottom-9 right-9"
+                    onClick={() => {
+                        isAllowed
+                            ? navigate("/add-client")
+                            : alert("You are not allowed to add a case");
+                    }}
+                >
+                    <button className=" bg-black rounded-md text-white h-12 w-32 text-2xl hover:border-2 hover:border-purple-600 hover:text-purple-600">
+                        Add Client
+                    </button>
+                </div>
+
+                <div className="flex flex-col m-10 ">
+                    <ul className="mt-5 ">
+                        {clientsData.map((client) => (
+                            <li
+                                key={client.address}
+                                className="bg-[#0b0212] text-white border-2 border-slate-400  flex flex-col shadow-md px-8 py-6 rounded-lg my-5 hover:border-purple-600"
+                            >
+                                <p className="font-bold">Client Name: {client.details[0]}</p>
+                                <p>Client ID: {client.details[1]}</p>
+                                <p>Client Case Id: {client.details[2]}</p>
+                                <p>Lawyer ID: {client.details[3]}</p>
+                                {/* Add more details as needed */}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        </Layout>
+    );
 };
 
 export default Clients;

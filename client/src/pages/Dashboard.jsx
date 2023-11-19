@@ -9,7 +9,7 @@ import img5 from "../assets/Cases.png";
 import { EvaultContext } from "../context/EvaulContext";
 
 const DashboardItems = ({ img, title, link, count }) => (
-  <div>
+  <div className="">
     <div className="p-3  justify-end items-end flex-col rounded-xl sm:w-72 w-full border-2 border-slate-400 mx-5 my-5 blue-glassmorphism">
       <div className="flex items-center justify-center">
         <img src={img} className="h-20 aspect-[3/2] "></img>
@@ -20,7 +20,7 @@ const DashboardItems = ({ img, title, link, count }) => (
           No. of {title} :{count}
         </p>
       </div>
-        <Link to={link} className="text-white mt-3 py-3 flex items-center justify-center border-2 rounded-lg border-gray-500 ">
+        <Link to={link} className="text-white mt-3 py-3 flex items-center justify-center border-2 rounded-lg border-gray-500 hover:border-purple-600 ">
           View {title}
         </Link>
     </div>
@@ -31,10 +31,10 @@ const Dashboard = ({}) => {
   const { clientsArray, judgesArray, lawyersArray } = useContext(EvaultContext);
   return (
     <Layout>
-      <h1 className="text-white pt-5 bg-[#0b0212] text-center text-4xl font-bold">
+      <h1 className="text-2xl text-center mt-3 font-bold text-white rounded-xl mx-7 bg-gradient-to-r from-purple-500 via-red-400 to-pink-500 white-glassmorpism">
         DASHBOARD
       </h1>
-      <div className="bg-[#0b0212] min-h-screen min-w-screen flex w-screen">
+      <div className="bg-[#0b0212] min-h-screen min-w-screen border-1  flex w-screen">
         <div className="flex flex-row mt-40">
           <DashboardItems
             img={img2}
