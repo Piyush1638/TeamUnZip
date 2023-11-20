@@ -20,15 +20,19 @@ const DashboardItems = ({ img, title, link, count }) => (
           No. of {title} :{count}
         </p>
       </div>
-        <Link to={link} className="text-white mt-3 py-3 flex items-center justify-center border-2 rounded-lg border-gray-500 hover:border-purple-600 ">
-          View {title}
-        </Link>
+      <Link
+        to={link}
+        className="text-white mt-3 py-3 flex items-center justify-center border-2 rounded-lg border-gray-500 hover:border-purple-600 "
+      >
+        View {title}
+      </Link>
     </div>
   </div>
 );
 
 const Dashboard = ({}) => {
-  const { clientsArray, judgesArray, lawyersArray } = useContext(EvaultContext);
+  const { clientsArray, judgesArray, lawyersArray, casesArray } =
+    useContext(EvaultContext);
   return (
     <Layout>
       <h1 className="text-2xl text-center mt-3 font-bold text-white rounded-xl mx-7 bg-gradient-to-r from-purple-500 via-red-400 to-pink-500 white-glassmorpism">
@@ -54,7 +58,12 @@ const Dashboard = ({}) => {
             count={lawyersArray.length}
             link="/lawyers"
           />
-          <DashboardItems img={img5} title="Cases" link="/cases"/>
+          <DashboardItems
+            img={img5}
+            title="Cases"
+            link="/cases"
+            count={casesArray.length}
+          />
         </div>
       </div>
     </Layout>

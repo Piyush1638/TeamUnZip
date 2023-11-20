@@ -2,17 +2,16 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const LoginForEveryone = () => {
-  const [id,setId] = useState('');
-  const [password,setPassword] = useState('');
-    const navigate = useNavigate();
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const handleLogin = () => {
-    if (id === 'UnZip' && password === 'U@123') {
-        navigate("/home");
+    if (id === "UnZip" && password === "U@123") {
+      navigate("/home");
     } else {
-        alert("Wrong Id or Password!!");
+      alert("Wrong Id or Password!!");
     }
   };
-
 
   return (
     <div>
@@ -38,7 +37,7 @@ const LoginForEveryone = () => {
                     className="border sm:text-sm rounded-lg text-md text-black block w-full p-2.5 bg-bg border-custompurple placeholder-custompurple  focus:ring-custompurple focus:border-custompurple"
                     required
                     value={id}
-                    onChange={(e)=>setId(e.target.value)}
+                    onChange={(e) => setId(e.target.value)}
                   />
                 </div>
                 <div>
@@ -56,18 +55,17 @@ const LoginForEveryone = () => {
                     className="border sm:text-sm rounded-lg text-md  block w-full p-2.5 bg-bg border-custompurple placeholder-custompurple text-black focus:ring-custompurple focus:border-custompurple"
                     required=""
                     value={password}
-                    onChange={(e)=>setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                
+
                 <button
                   type="submit"
-                  class="w-full text-white  focus:ring-4 focus:outline-none font-medium rounded-lg text-md px-5 py-2.5 text-center bg-custompurple hover:scale-105 focus:ring-custompurple"
+                  className="w-full text-white  focus:ring-4 focus:outline-none font-medium rounded-lg text-md px-5 py-2.5 text-center bg-custompurple hover:scale-105 focus:ring-custompurple"
                   onClick={handleLogin}
                 >
                   Sign in
                 </button>
-                
               </form>
             </div>
           </div>

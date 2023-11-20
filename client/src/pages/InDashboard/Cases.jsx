@@ -4,7 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { EvaultContext } from "../../context/EvaulContext";
 
 const Cases = () => {
-    const { casesArray, isConnected, getCaseDetails } = useContext(EvaultContext);
+    const {
+        casesArray,
+        isConnected,
+        getCaseDetails,
+        addCase, // Add this line if you need to add cases from this component
+    } = useContext(EvaultContext);
+
     const [casesData, setCasesData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isAllowed, setIsAllowed] = useState(true);
@@ -39,7 +45,9 @@ const Cases = () => {
     return (
         <Layout>
             <div className="relative">
-                <h1 className="text-2xl text-center mt-3 font-bold text-white rounded-xl m-10 bg-gradient-to-r from-purple-500 via-red-400 to-pink-500 white-glassmorpism">CASES</h1>
+                <h1 className="text-2xl text-center mt-3 font-bold text-white rounded-xl m-10 bg-gradient-to-r from-purple-500 via-red-400 to-pink-500 white-glassmorpism">
+                    CASES
+                </h1>
 
                 <div
                     className="flex fixed bottom-9 right-9"
@@ -64,10 +72,11 @@ const Cases = () => {
                                     key={caseItem.id}
                                     className="bg-[#0b0212] text-white border-2 border-slate-400  flex flex-col shadow-md px-8 py-6 rounded-lg my-5 hover:border-purple-600"
                                 >
-                                    <p className="font-bold">Case Name: {caseItem.details[0]}</p>
-                                    <p>Case ID: {caseItem.details[1]}</p>
-                                    <p>Client ID: {caseItem.details[2]}</p>
-                                    <p>Lawyer ID: {caseItem.details[3]}</p>
+                                    <p className="font-bold">Case ID: {caseItem.details[0]}</p>
+                                    <p>Client ID: {caseItem.details[1]}</p>
+                                    <p>Lawyer ID: {caseItem.details[2]}</p>
+                                    {/* Display the document link */}
+                                    <p>Document Link: {caseItem.details[3]}</p>
                                     {/* Add more details as needed */}
                                 </li>
                             ))}

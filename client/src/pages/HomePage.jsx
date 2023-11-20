@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 const HomePage = () => {
   const { connectWallet, currentAccount, isConnected } =
     useContext(EvaultContext);
-  console.log("Current Account:", currentAccount);
   return (
     <div className="min-h-full relative">
       <Navbar />

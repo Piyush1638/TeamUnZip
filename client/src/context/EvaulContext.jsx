@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { contractAddress2, contractABI2 } from "../utils/constants";
+import { contractAddress3, contractABI3 } from "../utils/constants";
 
 export const EvaultContext = React.createContext();
 
@@ -12,8 +12,8 @@ const getEthereumContract = () => {
   const provider = new ethers.providers.Web3Provider(ethereum);
   const signer = provider.getSigner();
   const legalRecordRegistryContract = new ethers.Contract(
-    contractAddress2,
-    contractABI2,
+    contractAddress3,
+    contractABI3,
     signer
   );
 
@@ -26,9 +26,8 @@ export const EvaultProvider = ({ children }) => {
   const [clientsArray, setClientsArray] = useState([]);
   const [judgesArray, setJudgesArray] = useState([]);
   const [lawyersArray, setLawyersArray] = useState([]);
-
   const [casesArray, setCasesArray] = useState([]);
-  const [casesData, setCasesData] = useState([]);
+
 
   const checkIfWalletIsConnected = async () => {
     try {
@@ -43,10 +42,14 @@ export const EvaultProvider = ({ children }) => {
           await legalRecordRegistryContract.getJudgesArray();
         const fetchedLawyersArray =
           await legalRecordRegistryContract.getLawyersArray();
+        const fetchedCasesArray =
+          await legalRecordRegistryContract.getCasesArray();
 
         setClientsArray(fetchedClientsArray);
         setJudgesArray(fetchedJudgesArray);
         setLawyersArray(fetchedLawyersArray);
+        setCasesArray(fetchedCasesArray);
+
         setIsConnected(true);
       } else {
         alert("No Accounts Detected OR Found.");
@@ -165,16 +168,6 @@ export const EvaultProvider = ({ children }) => {
     }
   };
 
-  const getCasesArray = async () => {
-    try {
-      const legalRecordRegistryContract = getEthereumContract();
-      const fetchedCasesArray = await legalRecordRegistryContract.getCasesArray();
-      setCasesArray(fetchedCasesArray);
-    } catch (error) {
-      console.error("Error fetching cases array:", error.message);
-    }
-  };
-
   const getCaseDetails = async (caseId) => {
     try {
       const legalRecordRegistryContract = getEthereumContract();
@@ -185,33 +178,8 @@ export const EvaultProvider = ({ children }) => {
     }
   };
 
-  const getCasesDetails = async () => {
-    try {
-      const legalRecordRegistryContract = getEthereumContract();
-      const casesDetails = await Promise.all(
-        casesArray.map(async (caseId) => {
-          const details = await getCaseDetails(caseId);
-          return {
-            id: caseId,
-            details: details,
-          };
-        })
-      );
 
-      setCasesData(casesDetails);
-    } catch (error) {
-      console.error("Error fetching cases details:", error.message);
-    }
-  };
 
-  useEffect(() => {
-    checkIfWalletIsConnected();
-    getCasesArray(); // Fetch cases array when component mounts
-  }, []);
-
-  useEffect(() => {
-    getCasesDetails(); // Fetch cases details when casesArray is updated
-  }, [casesArray, getCaseDetails]);
 
   useEffect(() => {
     checkIfWalletIsConnected();
@@ -226,6 +194,7 @@ export const EvaultProvider = ({ children }) => {
         clientsArray,
         judgesArray,
         lawyersArray,
+        casesArray,
         addClient,
         addLawyer,
         addJudge,
@@ -233,10 +202,7 @@ export const EvaultProvider = ({ children }) => {
         getClientDetails,
         getLawyerDetails,
         getJudgeDetails,
-        casesArray,
-        casesData,
         getCaseDetails,
-        getCasesDetails,
       }}
     >
       {children}
