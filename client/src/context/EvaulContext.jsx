@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { contractAddress, contractABI } from "../utils/constants";
+import { contractAddress2, contractABI2 } from "../utils/constants";
 
 export const EvaultContext = React.createContext();
 
@@ -12,8 +12,8 @@ const getEthereumContract = () => {
   const provider = new ethers.providers.Web3Provider(ethereum);
   const signer = provider.getSigner();
   const legalRecordRegistryContract = new ethers.Contract(
-    contractAddress,
-    contractABI,
+    contractAddress2,
+    contractABI2,
     signer
   );
 
@@ -26,6 +26,9 @@ export const EvaultProvider = ({ children }) => {
   const [clientsArray, setClientsArray] = useState([]);
   const [judgesArray, setJudgesArray] = useState([]);
   const [lawyersArray, setLawyersArray] = useState([]);
+
+  const [casesArray, setCasesArray] = useState([]);
+  const [casesData, setCasesData] = useState([]);
 
   const checkIfWalletIsConnected = async () => {
     try {
@@ -146,6 +149,69 @@ export const EvaultProvider = ({ children }) => {
     }
   };
 
+  const addCase = async (caseId, clientId, lawyerId, documentLink) => {
+    try {
+      if (!ethereum) return alert("Please install Metamask");
+      const legalRecordRegistryContract = getEthereumContract();
+      await legalRecordRegistryContract.addCase(
+        caseId,
+        clientId,
+        lawyerId,
+        documentLink
+      );
+      alert("Case Added Successfully!");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const getCasesArray = async () => {
+    try {
+      const legalRecordRegistryContract = getEthereumContract();
+      const fetchedCasesArray = await legalRecordRegistryContract.getCasesArray();
+      setCasesArray(fetchedCasesArray);
+    } catch (error) {
+      console.error("Error fetching cases array:", error.message);
+    }
+  };
+
+  const getCaseDetails = async (caseId) => {
+    try {
+      const legalRecordRegistryContract = getEthereumContract();
+      const caseDetails = await legalRecordRegistryContract.getCaseDetails(caseId);
+      return caseDetails; // Adjust this based on the actual return structure
+    } catch (error) {
+      console.error(`Error fetching case details for ${caseId}:`, error.message);
+    }
+  };
+
+  const getCasesDetails = async () => {
+    try {
+      const legalRecordRegistryContract = getEthereumContract();
+      const casesDetails = await Promise.all(
+        casesArray.map(async (caseId) => {
+          const details = await getCaseDetails(caseId);
+          return {
+            id: caseId,
+            details: details,
+          };
+        })
+      );
+
+      setCasesData(casesDetails);
+    } catch (error) {
+      console.error("Error fetching cases details:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    checkIfWalletIsConnected();
+    getCasesArray(); // Fetch cases array when component mounts
+  }, []);
+
+  useEffect(() => {
+    getCasesDetails(); // Fetch cases details when casesArray is updated
+  }, [casesArray, getCaseDetails]);
 
   useEffect(() => {
     checkIfWalletIsConnected();
@@ -163,9 +229,14 @@ export const EvaultProvider = ({ children }) => {
         addClient,
         addLawyer,
         addJudge,
+        addCase,
         getClientDetails,
         getLawyerDetails,
         getJudgeDetails,
+        casesArray,
+        casesData,
+        getCaseDetails,
+        getCasesDetails,
       }}
     >
       {children}

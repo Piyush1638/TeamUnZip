@@ -1,9 +1,9 @@
 const main = async() =>{
-    const LegalCaseRegistry = await hre.ethers.getContractFactory("LegalCaseRegistry");
-    const legalCaseRegistry = await LegalCaseRegistry.deploy();
+    const LegalRoleRegistry = await hre.ethers.getContractFactory("LegalRoleRegistry");
+    const legalRoleRegistry = await LegalRoleRegistry.deploy();
   
-    await legalCaseRegistry.deployed();
-    console.log("LegalCaseRegistry contract deployed to:",legalCaseRegistry.address);
+    await legalRoleRegistry.deployed();
+    console.log("LegalRoleRegistry contract deployed to:",legalRoleRegistry.address);
   
   }
   
